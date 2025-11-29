@@ -310,7 +310,9 @@ export default function Hero() {
               View Featured Projects
             </a>
             <a
-              href="#contact"
+              href="/resume.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
               className="px-8 py-3.5 bg-white/50 dark:bg-slate-800/50 backdrop-blur-sm text-slate-900 dark:text-white border border-slate-200 dark:border-slate-700 rounded-full font-bold text-sm md:text-base hover:bg-white dark:hover:bg-slate-800 transition-all duration-300"
             >
               Download Resume
