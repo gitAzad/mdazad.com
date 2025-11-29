@@ -114,14 +114,12 @@ export default function Home() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
 
-      <Header />
       <Hero />
       <About />
       <Projects />
       <Experience />
       <Skills />
       <Contact />
-      <Footer />
     </main>
   );
 }
