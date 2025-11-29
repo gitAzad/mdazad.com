@@ -83,8 +83,8 @@ const jsonLd = {
   url: 'https://mdazad.com',
   sameAs: [
     'https://www.linkedin.com/in/mr-azad',
-    'https://github.com/yourusername',
-    'https://twitter.com/yourusername',
+    'https://github.com/gitAzad',
+    'https://x.com/mdazadx',
   ],
   alumniOf: 'Nehru Gram Bharti University',
   knowsAbout: [
