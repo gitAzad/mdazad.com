@@ -1,14 +1,13 @@
 'use client';
-import { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, Sun, Moon, Sparkles } from 'lucide-react';
+import { AnimatePresence, motion } from 'framer-motion';
+import { Menu, Sparkles, X } from 'lucide-react';
+import { useEffect, useState } from 'react';
 import ThemeToggle from './ThemeToggle';
 
 export default function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('hero');
-  const [isDark, setIsDark] = useState(false); // Local state for demo purposes
 
   // Handle Scroll Effects
   useEffect(() => {
