@@ -1,261 +1,467 @@
 'use client';
+
 import { motion } from 'framer-motion';
-import { useState } from 'react';
 import {
-  Mail,
-  Phone,
-  MapPin,
+  type LucideIcon,
   Github,
-  Linkedin,
-  Twitter,
   Globe,
+  Linkedin,
+  Mail,
+  MapPin,
+  Phone,
   Send,
+  Twitter,
 } from 'lucide-react';
+import { useMemo, useState, type FormEvent } from 'react';
+
+type ContactMethod = {
+  title: string;
+  value: string;
+  href: string;
+  Icon: LucideIcon;
+};
+
+type SocialLink = {
+  label: string;
+  href: string;
+  Icon: LucideIcon;
+};
+
+const protectedPhoneCodePoints = [
+  43, 57, 49, 32, 55, 48, 48, 55, 57, 55, 49, 54, 49, 57,
+];
+
+function decodeProtectedPhone() {
+  return String.fromCharCode(...protectedPhoneCodePoints);
+}
+
+const emailMethod: ContactMethod = {
+  title: 'Email',
+  value: 'hello@mdazad.com',
+  href: 'mailto:hello@mdazad.com',
+  Icon: Mail,
+};
+
+const locationMethod: ContactMethod = {
+  title: 'Location',
+  value: 'Mumbai, India',
+  href: 'https://maps.google.com/?q=Mumbai,India',
+  Icon: MapPin,
+};
+
+const socialLinks: SocialLink[] = [
+  {
+    label: 'GitHub',
+    Icon: Github,
+    href: 'https://github.com/gitAzad',
+  },
+  {
+    label: 'LinkedIn',
+    Icon: Linkedin,
+    href: 'https://www.linkedin.com/in/mr-azad',
+  },
+  {
+    label: 'X',
+    Icon: Twitter,
+    href: 'https://x.com/mdazadx',
+  },
+  {
+    label: 'Website',
+    Icon: Globe,
+    href: 'https://mdazad.com',
+  },
+];
 
 export default function Contact() {
-  const [focused, setFocused] = useState<string | null>(null);
+  const [activeField, setActiveField] = useState<
+    'name' | 'email' | 'message' | null
+  >(null);
+  const [isPhoneRevealed, setIsPhoneRevealed] = useState(false);
 
-  const contactMethods = [
-    {
-      icon: <Mail className="w-6 h-6" />,
-      title: 'Email',
-      value: 'hello@mdazad.com',
-      link: 'mailto:hello@mdazad.com',
-      color: 'blue',
-    },
-    {
-      icon: <Phone className="w-6 h-6" />,
-      title: 'Phone',
-      value: '+91 7007971619',
-      link: 'tel:+917007971619',
-      color: 'green',
-    },
-    {
-      icon: <MapPin className="w-6 h-6" />,
-      title: 'Location',
-      value: 'Mumbai, India 🇮🇳',
-      link: '#',
-      color: 'purple',
-    },
-  ];
+  const phoneNumber = useMemo(() => decodeProtectedPhone(), []);
 
-  const socialLinks = [
-    {
-      name: 'GitHub',
-      icon: <Github className="w-6 h-6" />,
-      color: 'from-gray-700 to-gray-900',
-      link: '#',
-    },
-    {
-      name: 'LinkedIn',
-      icon: <Linkedin className="w-6 h-6" />,
-      color: 'from-blue-600 to-blue-800',
-      link: '#',
-    },
-    {
-      name: 'Twitter',
-      icon: <Twitter className="w-6 h-6" />,
-      color: 'from-sky-400 to-blue-500',
-      link: '#',
-    },
-    {
-      name: 'Portfolio',
-      icon: <Globe className="w-6 h-6" />,
-      color: 'from-purple-600 to-pink-600',
-      link: '#',
-    },
-  ];
+  const methodCardStyle = {
+    borderColor: 'color-mix(in oklch, var(--theme-border) 64%, transparent)',
+    background: 'color-mix(in oklch, var(--theme-surface) 88%, transparent)',
+    boxShadow:
+      '0 6px 18px color-mix(in oklch, var(--theme-text) 6%, transparent)',
+  };
+
+  const iconBadgeStyle = {
+    borderColor: 'color-mix(in oklch, var(--theme-primary) 32%, transparent)',
+    color: 'var(--theme-primary)',
+    background: 'color-mix(in oklch, var(--theme-primary) 8%, transparent)',
+  };
+
+  const getFieldStyle = (fieldName: 'name' | 'email' | 'message') => {
+    const isActive = activeField === fieldName;
+
+    return {
+      borderColor: isActive
+        ? 'color-mix(in oklch, var(--theme-primary) 70%, oklch(0.75 0.11 220))'
+        : 'color-mix(in oklch, var(--theme-border) 64%, transparent)',
+      background: 'color-mix(in oklch, var(--theme-surface) 94%, transparent)',
+      color: 'var(--theme-text)',
+      caretColor: 'var(--theme-primary)',
+      boxShadow: isActive
+        ? '0 0 0 3px color-mix(in oklch, var(--theme-primary) 22%, transparent)'
+        : 'none',
+    };
+  };
+
+  const handlePhoneAction = () => {
+    if (!isPhoneRevealed) {
+      setIsPhoneRevealed(true);
+      return;
+    }
+
+    window.location.href = `tel:${phoneNumber.replace(/[^+\d]/g, '')}`;
+  };
+
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    const formData = new FormData(event.currentTarget);
+    const name = String(formData.get('name') ?? '').trim();
+    const email = String(formData.get('email') ?? '').trim();
+    const message = String(formData.get('message') ?? '').trim();
+
+    const subject = encodeURIComponent(
+      `Portfolio Inquiry${name ? ` from ${name}` : ''}`,
+    );
+    const body = encodeURIComponent(
+      [
+        `Name: ${name || 'Not provided'}`,
+        `Email: ${email || 'Not provided'}`,
+        '',
+        message || 'No message provided.',
+      ].join('\n'),
+    );
+
+    window.location.href = `mailto:hello@mdazad.com?subject=${subject}&body=${body}`;
+  };
 
   return (
     <section
       id="contact"
-      className="relative py-24 px-6 bg-slate-50 dark:bg-[#0B1120] transition-colors duration-500 overflow-hidden"
+      className="relative overflow-hidden bg-background px-6 py-24 text-foreground"
     >
-      {/* Background Pattern */}
-      <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] pointer-events-none" />
+      <div className="pointer-events-none absolute inset-0">
+        <div
+          className="absolute inset-0"
+          style={{
+            opacity: 0.16,
+            backgroundImage:
+              'linear-gradient(to right, color-mix(in oklch, var(--theme-border) 30%, transparent) 1px, transparent 1px), linear-gradient(to bottom, color-mix(in oklch, var(--theme-border) 30%, transparent) 1px, transparent 1px)',
+            backgroundSize: '44px 44px',
+          }}
+        />
+      </div>
 
-      <div className="container mx-auto max-w-6xl relative z-10">
-        {/* Section Header */}
+      <div className="container relative z-10 mx-auto max-w-6xl">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
-          className="text-center mb-16"
+          className="mb-14 text-center"
         >
-          <h2 className="text-3xl md:text-5xl font-bold mb-4 text-slate-900 dark:text-white">
-            Get In{' '}
-            <span className="text-blue-600 dark:text-blue-400">Touch</span>
+          <span
+            className="inline-flex rounded-full border px-3 py-1 text-xs font-semibold uppercase tracking-[0.16em]"
+            style={{
+              borderColor:
+                'color-mix(in oklch, var(--theme-primary) 36%, transparent)',
+              color: 'var(--theme-primary)',
+              background:
+                'color-mix(in oklch, var(--theme-primary) 8%, transparent)',
+            }}
+          >
+            Contact
+          </span>
+          <h2 className="mt-4 text-3xl font-bold tracking-tight md:text-5xl">
+            Get In <span style={{ color: 'var(--theme-primary)' }}>Touch</span>
           </h2>
-          <div className="h-1.5 w-24 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full mx-auto" />
-          <p className="mt-4 text-slate-600 dark:text-slate-400 max-w-2xl mx-auto">
+          <p
+            className="mx-auto mt-4 max-w-2xl text-base leading-relaxed md:text-lg"
+            style={{ color: 'var(--theme-muted-text)' }}
+          >
             Have a project in mind or want to collaborate? I&apos;d love to hear
-            from you!
+            from you.
           </p>
         </motion.div>
 
-        <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-start">
-          {/* Left Column: Contact Info */}
+        <div className="grid items-start gap-10 lg:grid-cols-[0.95fr_1.05fr]">
           <motion.div
-            initial={{ opacity: 0, x: -50 }}
+            initial={{ opacity: 0, x: -20 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
+            transition={{ duration: 0.5 }}
             className="space-y-8"
           >
             <div>
-              <h3 className="text-2xl font-bold mb-4 text-slate-900 dark:text-white">
+              <h3 className="mb-4 text-2xl font-semibold md:text-3xl">
                 Let&apos;s talk about your project
               </h3>
-              <p className="text-slate-600 dark:text-slate-400 leading-relaxed text-lg">
+              <p
+                className="text-lg leading-relaxed"
+                style={{ color: 'var(--theme-muted-text)' }}
+              >
                 I&apos;m always open to discussing new projects, creative ideas,
                 or opportunities to be part of your vision.
               </p>
             </div>
 
             <div className="space-y-4">
-              {contactMethods.map((method, idx) => (
-                <motion.a
-                  key={method.title}
-                  href={method.link}
-                  initial={{ opacity: 0, x: -20 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: idx * 0.1, duration: 0.5 }}
-                  whileHover={{ x: 5 }}
-                  className="flex items-center gap-4 p-4 bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-md transition-all group"
+              <motion.a
+                href={emailMethod.href}
+                initial={{ opacity: 0, x: -20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.0, duration: 0.5 }}
+                whileHover={{ x: 3 }}
+                className="group flex items-center gap-4 rounded-xl border p-4 transition-transform"
+                style={methodCardStyle}
+              >
+                <span
+                  className="inline-grid size-11 shrink-0 place-items-center rounded-lg border"
+                  style={iconBadgeStyle}
                 >
+                  <emailMethod.Icon className="size-5" />
+                </span>
+
+                <div>
                   <div
-                    className={`
-                    w-12 h-12 rounded-lg flex items-center justify-center
-                    bg-slate-50 dark:bg-slate-800 group-hover:scale-110 transition-transform
-                    text-slate-600 dark:text-slate-300
-                  `}
+                    className="text-xs font-medium uppercase tracking-wide"
+                    style={{ color: 'var(--theme-muted-text)' }}
                   >
-                    {method.icon}
+                    {emailMethod.title}
                   </div>
-                  <div>
-                    <div className="text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wide">
-                      {method.title}
-                    </div>
-                    <div className="font-semibold text-slate-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
-                      {method.value}
-                    </div>
+                  <div
+                    className="font-semibold"
+                    style={{ color: 'var(--theme-text)' }}
+                  >
+                    {emailMethod.value}
                   </div>
-                </motion.a>
-              ))}
+                </div>
+              </motion.a>
+
+              <motion.button
+                type="button"
+                initial={{ opacity: 0, x: -20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.1, duration: 0.5 }}
+                whileHover={{ x: 3 }}
+                onClick={handlePhoneAction}
+                className="group flex w-full items-center gap-4 rounded-xl border p-4 text-left transition-transform"
+                style={methodCardStyle}
+                aria-label={
+                  isPhoneRevealed ? 'Call phone number' : 'Reveal phone number'
+                }
+              >
+                <span
+                  className="inline-grid size-11 shrink-0 place-items-center rounded-lg border"
+                  style={iconBadgeStyle}
+                >
+                  <Phone className="size-5" />
+                </span>
+
+                <div>
+                  <div
+                    className="text-xs font-medium uppercase tracking-wide"
+                    style={{ color: 'var(--theme-muted-text)' }}
+                  >
+                    Phone
+                  </div>
+                  <div
+                    className="font-semibold"
+                    style={{ color: 'var(--theme-text)' }}
+                  >
+                    {isPhoneRevealed ? phoneNumber : 'Click to reveal number'}
+                  </div>
+                  <div
+                    className="mt-0.5 text-xs"
+                    style={{ color: 'var(--theme-muted-text)' }}
+                  >
+                    {isPhoneRevealed
+                      ? 'Click again to call'
+                      : 'Protected via JavaScript'}
+                  </div>
+                </div>
+              </motion.button>
+
+              <motion.a
+                href={locationMethod.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                initial={{ opacity: 0, x: -20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.2, duration: 0.5 }}
+                whileHover={{ x: 3 }}
+                className="group flex items-center gap-4 rounded-xl border p-4 transition-transform"
+                style={methodCardStyle}
+              >
+                <span
+                  className="inline-grid size-11 shrink-0 place-items-center rounded-lg border"
+                  style={iconBadgeStyle}
+                >
+                  <locationMethod.Icon className="size-5" />
+                </span>
+
+                <div>
+                  <div
+                    className="text-xs font-medium uppercase tracking-wide"
+                    style={{ color: 'var(--theme-muted-text)' }}
+                  >
+                    {locationMethod.title}
+                  </div>
+                  <div
+                    className="font-semibold"
+                    style={{ color: 'var(--theme-text)' }}
+                  >
+                    {locationMethod.value}
+                  </div>
+                </div>
+              </motion.a>
             </div>
 
-            {/* Social Links */}
             <div>
-              <h4 className="text-sm font-semibold text-slate-900 dark:text-white mb-4 uppercase tracking-wider">
+              <h4
+                className="mb-4 text-sm font-semibold uppercase tracking-[0.14em]"
+                style={{ color: 'var(--theme-muted-text)' }}
+              >
                 Connect with me
               </h4>
-              <div className="flex gap-4">
+              <div className="flex flex-wrap gap-3">
                 {socialLinks.map((social, idx) => (
                   <motion.a
-                    key={social.name}
-                    href={social.link}
+                    key={social.label}
+                    href={social.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ delay: 0.3 + idx * 0.1 }}
-                    whileHover={{ y: -5 }}
-                    className={`
-                      w-12 h-12 rounded-xl flex items-center justify-center text-white
-                      bg-gradient-to-br ${social.color} shadow-lg hover:shadow-xl transition-all relative group
-                    `}
-                    title={social.name}
+                    whileHover={{ y: -2 }}
+                    className="inline-grid size-11 place-items-center rounded-xl border"
+                    style={{
+                      borderColor:
+                        'color-mix(in oklch, var(--theme-border) 62%, transparent)',
+                      color: 'var(--theme-muted-text)',
+                      background:
+                        'color-mix(in oklch, var(--theme-surface) 90%, transparent)',
+                    }}
+                    title={social.label}
+                    aria-label={social.label}
                   >
-                    {social.icon}
-                    {/* Tooltip */}
-                    <span className="absolute -top-10 left-1/2 transform -translate-x-1/2 px-2 py-1 bg-slate-800 text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">
-                      {social.name}
-                    </span>
+                    <social.Icon className="size-5" />
                   </motion.a>
                 ))}
               </div>
             </div>
           </motion.div>
 
-          {/* Right Column: Contact Form */}
-          <motion.div
-            initial={{ opacity: 0, x: 50 }}
+          <motion.form
+            onSubmit={handleSubmit}
+            initial={{ opacity: 0, x: 20 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="bg-white dark:bg-slate-900 p-8 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-xl"
+            transition={{ duration: 0.5, delay: 0.08 }}
+            className="rounded-2xl border p-8"
+            style={{
+              borderColor:
+                'color-mix(in oklch, var(--theme-border) 66%, transparent)',
+              background:
+                'color-mix(in oklch, var(--theme-surface) 88%, transparent)',
+              boxShadow:
+                '0 10px 26px color-mix(in oklch, var(--theme-text) 8%, transparent)',
+            }}
           >
-            <form className="space-y-6">
-              {/* Name Input */}
+            <div className="space-y-6">
               <div className="space-y-2">
                 <label
                   htmlFor="name"
-                  className="text-sm font-medium text-slate-700 dark:text-slate-300"
+                  className="text-sm font-medium"
+                  style={{ color: 'var(--theme-text)' }}
                 >
                   Full Name
                 </label>
                 <input
                   type="text"
                   id="name"
+                  name="name"
                   required
-                  onFocus={() => setFocused('name')}
-                  onBlur={() => setFocused(null)}
-                  className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-xl focus:border-blue-500 dark:focus:border-blue-400 focus:ring-4 focus:ring-blue-500/10 outline-none transition-all text-slate-900 dark:text-white placeholder:text-slate-400"
+                  autoComplete="name"
+                  onFocus={() => setActiveField('name')}
+                  onBlur={() => setActiveField(null)}
+                  className="w-full rounded-xl border px-4 py-3 text-base placeholder:opacity-80 outline-none transition-[border-color,box-shadow] duration-200"
+                  style={getFieldStyle('name')}
                   placeholder="John Doe"
                 />
               </div>
 
-              {/* Email Input */}
               <div className="space-y-2">
                 <label
                   htmlFor="email"
-                  className="text-sm font-medium text-slate-700 dark:text-slate-300"
+                  className="text-sm font-medium"
+                  style={{ color: 'var(--theme-text)' }}
                 >
                   Email Address
                 </label>
                 <input
                   type="email"
                   id="email"
+                  name="email"
                   required
-                  onFocus={() => setFocused('email')}
-                  onBlur={() => setFocused(null)}
-                  className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-xl focus:border-blue-500 dark:focus:border-blue-400 focus:ring-4 focus:ring-blue-500/10 outline-none transition-all text-slate-900 dark:text-white placeholder:text-slate-400"
+                  autoComplete="email"
+                  onFocus={() => setActiveField('email')}
+                  onBlur={() => setActiveField(null)}
+                  className="w-full rounded-xl border px-4 py-3 text-base placeholder:opacity-80 outline-none transition-[border-color,box-shadow] duration-200"
+                  style={getFieldStyle('email')}
                   placeholder="john@example.com"
                 />
               </div>
 
-              {/* Message Input */}
               <div className="space-y-2">
                 <label
                   htmlFor="message"
-                  className="text-sm font-medium text-slate-700 dark:text-slate-300"
+                  className="text-sm font-medium"
+                  style={{ color: 'var(--theme-text)' }}
                 >
                   Message
                 </label>
                 <textarea
                   id="message"
-                  rows={4}
+                  name="message"
+                  rows={5}
                   required
-                  onFocus={() => setFocused('message')}
-                  onBlur={() => setFocused(null)}
-                  className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-xl focus:border-blue-500 dark:focus:border-blue-400 focus:ring-4 focus:ring-blue-500/10 outline-none transition-all resize-none text-slate-900 dark:text-white placeholder:text-slate-400"
+                  onFocus={() => setActiveField('message')}
+                  onBlur={() => setActiveField(null)}
+                  className="w-full resize-none rounded-xl border px-4 py-3 text-base placeholder:opacity-80 outline-none transition-[border-color,box-shadow] duration-200"
+                  style={getFieldStyle('message')}
                   placeholder="Tell me about your project..."
                 />
               </div>
 
-              {/* Submit Button */}
               <motion.button
                 type="submit"
-                whileHover={{ scale: 1.02 }}
+                whileHover={{ scale: 1.01 }}
                 whileTap={{ scale: 0.98 }}
-                className="w-full py-4 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white rounded-xl font-bold shadow-lg hover:shadow-xl transition-all flex items-center justify-center gap-2 group"
+                className="group inline-flex w-full items-center justify-center gap-2 rounded-xl px-5 py-4 text-sm font-semibold md:text-base"
+                style={{
+                  background: 'var(--theme-text)',
+                  color: 'var(--theme-surface)',
+                  boxShadow:
+                    '0 8px 20px color-mix(in oklch, var(--theme-text) 20%, transparent)',
+                }}
               >
                 <span>Send Message</span>
-                <Send className="w-5 h-5 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform duration-300" />
+                <Send className="size-5 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
               </motion.button>
-            </form>
-          </motion.div>
+            </div>
+          </motion.form>
         </div>
       </div>
     </section>

@@ -1,191 +1,224 @@
 'use client';
+
 import { motion } from 'framer-motion';
+import { ArrowUpRight } from 'lucide-react';
+
+const impactStats = [
+  { value: '25%', label: 'System Efficiency Uplift' },
+  { value: '30%', label: 'Lower Data Latency' },
+  { value: '40%', label: 'Fewer Vulnerabilities' },
+];
+
+const deliveryHighlights = [
+  'Designed scalable Java Spring Boot services for fintech workloads.',
+  'Bridged backend complexity with production-grade Next.js interfaces.',
+  'Improved performance and operational stability across enterprise systems.',
+];
 
 export default function About() {
   return (
     <section
       id="about"
-      className="relative py-24 px-6 overflow-hidden bg-slate-50/50 dark:bg-[#0B1120] transition-colors duration-500"
+      className="relative overflow-hidden bg-background py-24 text-foreground"
     >
-      {/* Background Pattern - Technical Grid */}
-      <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] pointer-events-none" />
+      <div className="pointer-events-none absolute inset-0">
+        <div
+          className="absolute inset-0"
+          style={{
+            opacity: 0.18,
+            backgroundImage:
+              'linear-gradient(to right, color-mix(in oklch, var(--theme-border) 30%, transparent) 1px, transparent 1px), linear-gradient(to bottom, color-mix(in oklch, var(--theme-border) 30%, transparent) 1px, transparent 1px)',
+            backgroundSize: '44px 44px',
+          }}
+        />
+      </div>
 
-      <div className="container mx-auto max-w-6xl relative z-10">
-        {/* Section Header */}
+      <div className="container relative z-10 mx-auto max-w-6xl px-6">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 14 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
-          className="text-center mb-16"
+          transition={{ duration: 0.45 }}
+          className="mb-12 text-center"
         >
-          <h2 className="text-3xl md:text-5xl font-bold mb-4 text-slate-900 dark:text-white">
-            About <span className="text-blue-600 dark:text-blue-400">Me</span>
+          <span
+            className="inline-flex rounded-full border px-3 py-1 text-xs font-semibold uppercase tracking-[0.16em] font-mono"
+            style={{
+              borderColor:
+                'color-mix(in oklch, var(--theme-primary) 36%, transparent)',
+              color: 'var(--theme-primary)',
+              background:
+                'color-mix(in oklch, var(--theme-primary) 8%, transparent)',
+            }}
+          >
+            About
+          </span>
+          <h2 className="mt-4 text-3xl font-bold tracking-tight md:text-5xl">
+            About <span style={{ color: 'var(--theme-primary)' }}>Me</span>
           </h2>
-          <div className="h-1.5 w-24 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full mx-auto" />
         </motion.div>
 
-        <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
-          {/* Left Column: Narrative */}
+        <div className="grid items-start gap-10 lg:grid-cols-[1.1fr_0.9fr]">
           <motion.div
-            initial={{ opacity: 0, x: -50 }}
+            initial={{ opacity: 0, x: -20 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.2 }}
+            transition={{ duration: 0.5, delay: 0.08 }}
             className="space-y-6"
           >
-            <h3 className="text-2xl font-semibold text-slate-800 dark:text-slate-100">
+            <h3 className="text-2xl font-semibold md:text-3xl">
               Driving Digital Transformation through Code
             </h3>
 
-            <p className="text-lg text-slate-600 dark:text-slate-400 leading-relaxed">
+            <p
+              className="text-lg leading-relaxed"
+              style={{ color: 'var(--theme-muted-text)' }}
+            >
               I am a high-impact{' '}
-              <span className="font-semibold text-slate-900 dark:text-white">
+              <strong style={{ color: 'var(--theme-text)' }}>
                 Full Stack Engineer
-              </span>{' '}
+              </strong>{' '}
               with over{' '}
-              <span className="font-semibold text-indigo-600 dark:text-indigo-400">
+              <strong style={{ color: 'var(--theme-primary)' }}>
                 5+ years
-              </span>{' '}
+              </strong>{' '}
               of experience architecting scalable fintech and enterprise
               solutions.
             </p>
 
-            <p className="text-lg text-slate-600 dark:text-slate-400 leading-relaxed">
-              My expertise lies in the{' '}
-              <span className="font-semibold text-slate-900 dark:text-white">
+            <p
+              className="text-lg leading-relaxed"
+              style={{ color: 'var(--theme-muted-text)' }}
+            >
+              My expertise lies in{' '}
+              <strong style={{ color: 'var(--theme-text)' }}>
                 Java Spring Boot
-              </span>{' '}
+              </strong>{' '}
               and{' '}
-              <span className="font-semibold text-slate-900 dark:text-white">
-                Next.js
-              </span>{' '}
-              ecosystems, where I bridge the gap between complex backend logic
-              and intuitive frontend experiences.
+              <strong style={{ color: 'var(--theme-text)' }}>Next.js</strong>,
+              where I bridge complex backend logic with intuitive user-facing
+              experiences.
             </p>
 
-            {/* Quote Block */}
-            <div className="pt-4 p-6 bg-white dark:bg-slate-800/50 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm">
-              <p className="text-slate-700 dark:text-slate-300 italic">
-                &quot;I don&apos;t just write code; I build systems that reduce
+            <div
+              className="rounded-2xl border px-5 py-4"
+              style={{
+                borderColor:
+                  'color-mix(in oklch, var(--theme-border) 66%, transparent)',
+                background:
+                  'color-mix(in oklch, var(--theme-surface) 88%, transparent)',
+              }}
+            >
+              <p
+                className="italic"
+                style={{ color: 'var(--theme-muted-text)' }}
+              >
+                {`"I don&apos;t just write code. I build systems that reduce
                 latency, enhance security, and drive measurable business
-                growth.&quot;
+                growth."`}
+              </p>
+              <p
+                className="mt-3 text-right text-sm font-medium"
+                style={{ color: 'var(--theme-muted-text)' }}
+              >
+                - Md Azad
               </p>
             </div>
 
             <motion.a
               href="#contact"
-              whileHover={{ x: 5 }}
-              className="inline-flex items-center gap-2 text-blue-600 dark:text-blue-400 font-bold hover:text-blue-700 dark:hover:text-blue-300 transition-colors pt-2 group"
+              whileHover={{ x: 3 }}
+              className="inline-flex items-center gap-2 text-sm font-semibold md:text-base"
+              style={{ color: 'var(--theme-primary)' }}
             >
               Let&apos;s build something scalable
-              <svg
-                className="w-5 h-5 group-hover:translate-x-1 transition-transform"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M17 8l4 4m0 0l-4 4m4-4H3"
-                />
-              </svg>
+              <ArrowUpRight className="h-4 w-4" />
             </motion.a>
           </motion.div>
 
-          {/* Right Column: Bento Grid Stats */}
-          <motion.div
-            initial={{ opacity: 0, x: 50 }}
+          <motion.aside
+            initial={{ opacity: 0, x: 20 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.4 }}
-            className="grid grid-cols-1 sm:grid-cols-2 gap-4"
+            transition={{ duration: 0.5, delay: 0.12 }}
+            className="rounded-3xl border p-6"
+            style={{
+              borderColor:
+                'color-mix(in oklch, var(--theme-border) 68%, transparent)',
+              background:
+                'color-mix(in oklch, var(--theme-surface) 86%, transparent)',
+              boxShadow:
+                '0 10px 26px color-mix(in oklch, var(--theme-text) 8%, transparent)',
+            }}
           >
-            {/* Large Highlight Card */}
-            <motion.div
-              whileHover={{ y: -5 }}
-              className="sm:col-span-2 bg-gradient-to-br from-blue-600 to-indigo-700 p-6 rounded-2xl shadow-xl text-white relative overflow-hidden group"
+            <h4 className="text-lg font-semibold">Proven Outcomes</h4>
+
+            <div
+              className="mt-4 overflow-hidden rounded-2xl border"
+              style={{
+                borderColor:
+                  'color-mix(in oklch, var(--theme-border) 60%, transparent)',
+                background:
+                  'color-mix(in oklch, var(--theme-surface) 92%, transparent)',
+              }}
             >
-              <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
-                {/* Abstract Icon */}
-                <svg
-                  className="w-24 h-24"
-                  fill="currentColor"
-                  viewBox="0 0 24 24"
+              <div className="grid sm:grid-cols-3">
+                {impactStats.map((stat, index) => (
+                  <div
+                    key={stat.label}
+                    className={`px-4 py-4 text-left sm:text-center ${
+                      index < impactStats.length - 1
+                        ? 'border-b sm:border-b-0 sm:border-r'
+                        : ''
+                    }`}
+                    style={{
+                      borderColor:
+                        'color-mix(in oklch, var(--theme-border) 56%, transparent)',
+                    }}
+                  >
+                    <p
+                      className="text-2xl font-bold md:text-3xl font-mono tabular-nums"
+                      style={{ color: 'var(--theme-primary)' }}
+                    >
+                      {stat.value}
+                    </p>
+                    <p className="mt-1 text-sm font-medium">{stat.label}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div
+              className="my-5 h-px"
+              style={{
+                background:
+                  'color-mix(in oklch, var(--theme-border) 56%, transparent)',
+              }}
+            />
+
+            <p
+              className="text-center text-xs font-semibold uppercase tracking-[0.14em]"
+              style={{ color: 'var(--theme-muted-text)' }}
+            >
+              Delivery Focus
+            </p>
+
+            <ul className="mt-3 space-y-2">
+              {deliveryHighlights.map((item) => (
+                <li
+                  key={item}
+                  className="flex items-start gap-2 text-sm leading-relaxed"
+                  style={{ color: 'var(--theme-muted-text)' }}
                 >
-                  <path d="M12 2L2 7l10 5 10-5-10-5zm0 9l2.5-1.25L12 8.5l-2.5 1.25L12 11zm0 2.5l-5-2.5-5 2.5L12 22l10-8.5-5-2.5-5 2.5z" />
-                </svg>
-              </div>
-              <div className="relative z-10">
-                <div className="text-4xl font-bold mb-1">25%</div>
-                <div className="text-blue-100 font-medium">
-                  System Efficiency Boost
-                </div>
-                <p className="text-sm text-blue-200 mt-2 opacity-80">
-                  Optimized legacy code & microservices for clients like Piramal
-                  Finance.
-                </p>
-              </div>
-            </motion.div>
-
-            {/* Small Stat Card 1 */}
-            <motion.div
-              whileHover={{ y: -5 }}
-              className="bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-lg border border-slate-100 dark:border-slate-700"
-            >
-              <div className="w-10 h-10 bg-orange-100 dark:bg-orange-900/30 rounded-full flex items-center justify-center text-orange-600 dark:text-orange-400 mb-4">
-                <span className="text-xl">🚀</span>
-              </div>
-              <div className="text-3xl font-bold text-slate-900 dark:text-white mb-1">
-                5+
-              </div>
-              <div className="text-sm text-slate-500 dark:text-slate-400">
-                Years Experience
-              </div>
-            </motion.div>
-
-            {/* Small Stat Card 2 */}
-            <motion.div
-              whileHover={{ y: -5 }}
-              className="bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-lg border border-slate-100 dark:border-slate-700"
-            >
-              <div className="w-10 h-10 bg-purple-100 dark:bg-purple-900/30 rounded-full flex items-center justify-center text-purple-600 dark:text-purple-400 mb-4">
-                <span className="text-xl">🎯</span>
-              </div>
-              <div className="text-3xl font-bold text-slate-900 dark:text-white mb-1">
-                15+
-              </div>
-              <div className="text-sm text-slate-500 dark:text-slate-400">
-                Projects Delivered
-              </div>
-            </motion.div>
-
-            {/* Wide Split Card Bottom */}
-            <motion.div
-              whileHover={{ y: -5 }}
-              className="sm:col-span-2 bg-slate-100 dark:bg-slate-800/50 p-6 rounded-2xl border border-slate-200 dark:border-slate-700 flex items-center justify-between"
-            >
-              <div>
-                <div className="text-2xl font-bold text-slate-900 dark:text-white">
-                  30%
-                </div>
-                <div className="text-xs md:text-sm text-slate-500 dark:text-slate-400">
-                  Lower Data Latency
-                </div>
-              </div>
-              <div className="h-8 w-px bg-slate-300 dark:bg-slate-600 mx-4"></div>
-              <div>
-                <div className="text-2xl font-bold text-slate-900 dark:text-white">
-                  40%
-                </div>
-                <div className="text-xs md:text-sm text-slate-500 dark:text-slate-400">
-                  Fewer Vulnerabilities
-                </div>
-              </div>
-            </motion.div>
-          </motion.div>
+                  <span
+                    className="mt-1.5 h-1.5 w-1.5 rounded-full"
+                    style={{ background: 'var(--theme-primary)' }}
+                  />
+                  <span>{item}</span>
+                </li>
+              ))}
+            </ul>
+          </motion.aside>
         </div>
       </div>
     </section>

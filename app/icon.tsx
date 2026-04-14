@@ -13,28 +13,27 @@ export const contentType = 'image/png';
 // Image generation
 export default function Icon() {
   return new ImageResponse(
-    (
-      // ImageResponse JSX element
-      <div
-        style={{
-          fontSize: 20,
-          background: 'linear-gradient(135deg, #3b82f6, #8b5cf6)',
-          width: '100%',
-          height: '100%',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          color: 'white',
-          borderRadius: '8px', // Slightly rounded corners
-          fontWeight: 800,
-        }}
-      >
-        MA
-      </div>
-    ),
-    // ImageResponse options
+    <div
+      style={{
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        width: '100%',
+        height: '100%',
+        background: '#f8fafc',
+        border: '1px solid #cbd5e1',
+        borderRadius: 8,
+        color: '#0f172a',
+        fontFamily: 'Geist, Inter, ui-sans-serif, system-ui, sans-serif',
+        fontSize: 18,
+        fontWeight: 800,
+        letterSpacing: '-0.02em',
+      }}
+    >
+      MA
+    </div>,
     {
       ...size,
-    }
+    },
   );
 }

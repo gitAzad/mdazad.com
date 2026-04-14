@@ -105,7 +105,7 @@ const jsonLd = {
 
 export default function Home() {
   return (
-    <main className="flex min-h-screen flex-col bg-slate-50 dark:bg-[#0B1120] text-slate-900 dark:text-white transition-colors duration-500">
+    <main className="flex min-h-screen flex-col bg-background text-foreground transition-colors duration-500">
       {/* Inject JSON-LD for SEO */}
       <script
         type="application/ld+json"

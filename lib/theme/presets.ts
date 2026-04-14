@@ -1,0 +1,192 @@
+import { ThemePalette, ThemeSlots } from './types';
+
+const defaultLight: ThemeSlots = {
+  background: 'oklch(0.984 0.003 247.858)',
+  surface: 'oklch(1 0 0)',
+  text: 'oklch(0.208 0.042 265.755)',
+  mutedText: 'oklch(0.554 0.046 257.417)',
+  primary: 'oklch(0.589 0.19 258.15)',
+  accent: 'oklch(0.627 0.265 303.9)',
+  border: 'oklch(0.882 0.02 254.128)',
+  ring: 'oklch(0.707 0.165 254.624)',
+  success: 'oklch(0.627 0.194 149.214)',
+  warning: 'oklch(0.705 0.213 47.604)',
+  destructive: 'oklch(0.637 0.237 25.331)',
+};
+
+const defaultDark: ThemeSlots = {
+  background: 'oklch(0.17 0.03 265)',
+  surface: 'oklch(0.235 0.03 262)',
+  text: 'oklch(0.985 0 0)',
+  mutedText: 'oklch(0.72 0.03 260)',
+  primary: 'oklch(0.707 0.165 254.624)',
+  accent: 'oklch(0.714 0.203 305.504)',
+  border: 'oklch(0.372 0.034 259.733)',
+  ring: 'oklch(0.809 0.105 251.813)',
+  success: 'oklch(0.765 0.177 163.223)',
+  warning: 'oklch(0.828 0.189 84.429)',
+  destructive: 'oklch(0.704 0.191 22.216)',
+};
+
+export const themePresets: ThemePalette[] = [
+  { id: 'aurora', label: 'Aurora', light: defaultLight, dark: defaultDark },
+  {
+    id: 'oceanic',
+    label: 'Oceanic',
+    light: {
+      ...defaultLight,
+      primary: 'oklch(0.53 0.118 221)',
+      accent: 'oklch(0.62 0.12 204)',
+      ring: 'oklch(0.78 0.124 196)',
+    },
+    dark: {
+      ...defaultDark,
+      primary: 'oklch(0.77 0.119 222)',
+      accent: 'oklch(0.78 0.124 196)',
+      ring: 'oklch(0.84 0.09 191)',
+    },
+  },
+  {
+    id: 'sunset',
+    label: 'Sunset',
+    light: {
+      ...defaultLight,
+      primary: 'oklch(0.66 0.2 43)',
+      accent: 'oklch(0.66 0.24 356)',
+      ring: 'oklch(0.76 0.16 14)',
+    },
+    dark: {
+      ...defaultDark,
+      primary: 'oklch(0.78 0.16 56)',
+      accent: 'oklch(0.78 0.17 345)',
+      ring: 'oklch(0.84 0.1 16)',
+    },
+  },
+  {
+    id: 'emerald',
+    label: 'Emerald',
+    light: {
+      ...defaultLight,
+      primary: 'oklch(0.63 0.18 155)',
+      accent: 'oklch(0.62 0.13 192)',
+      ring: 'oklch(0.76 0.18 163)',
+    },
+    dark: {
+      ...defaultDark,
+      primary: 'oklch(0.77 0.18 163)',
+      accent: 'oklch(0.79 0.13 191)',
+      ring: 'oklch(0.84 0.12 165)',
+    },
+  },
+  {
+    id: 'violet',
+    label: 'Violet',
+    light: {
+      ...defaultLight,
+      primary: 'oklch(0.54 0.27 293)',
+      accent: 'oklch(0.62 0.27 304)',
+      ring: 'oklch(0.74 0.18 304)',
+    },
+    dark: {
+      ...defaultDark,
+      primary: 'oklch(0.74 0.18 304)',
+      accent: 'oklch(0.78 0.18 311)',
+      ring: 'oklch(0.88 0.06 306)',
+    },
+  },
+  {
+    id: 'ruby',
+    label: 'Ruby',
+    light: {
+      ...defaultLight,
+      primary: 'oklch(0.63 0.24 28)',
+      accent: 'oklch(0.57 0.22 26)',
+      ring: 'oklch(0.75 0.16 20)',
+    },
+    dark: {
+      ...defaultDark,
+      primary: 'oklch(0.75 0.16 20)',
+      accent: 'oklch(0.76 0.14 356)',
+      ring: 'oklch(0.84 0.09 24)',
+    },
+  },
+  {
+    id: 'sand',
+    label: 'Sand',
+    light: {
+      ...defaultLight,
+      background: 'oklch(0.97 0.01 75)',
+      surface: 'oklch(0.99 0.01 85)',
+      text: 'oklch(0.29 0.03 257)',
+      mutedText: 'oklch(0.56 0.02 260)',
+      primary: 'oklch(0.58 0.13 68)',
+      accent: 'oklch(0.62 0.14 55)',
+      border: 'oklch(0.9 0.02 80)',
+      ring: 'oklch(0.77 0.16 75)',
+    },
+    dark: {
+      ...defaultDark,
+      background: 'oklch(0.23 0.02 260)',
+      surface: 'oklch(0.3 0.02 258)',
+      text: 'oklch(0.98 0 0)',
+      mutedText: 'oklch(0.8 0.01 258)',
+      primary: 'oklch(0.77 0.16 75)',
+      accent: 'oklch(0.84 0.15 86)',
+      border: 'oklch(0.39 0.02 258)',
+      ring: 'oklch(0.88 0.11 88)',
+    },
+  },
+  {
+    id: 'neon',
+    label: 'Neon',
+    light: {
+      ...defaultLight,
+      background: 'oklch(0.96 0.02 300)',
+      surface: 'oklch(0.95 0.03 270)',
+      primary: 'oklch(0.56 0.22 281)',
+      accent: 'oklch(0.7 0.14 206)',
+      border: 'oklch(0.86 0.03 276)',
+      ring: 'oklch(0.8 0.12 196)',
+    },
+    dark: {
+      ...defaultDark,
+      background: 'oklch(0.16 0.03 274)',
+      surface: 'oklch(0.23 0.04 270)',
+      primary: 'oklch(0.72 0.16 286)',
+      accent: 'oklch(0.8 0.12 196)',
+      border: 'oklch(0.33 0.04 266)',
+      ring: 'oklch(0.84 0.09 191)',
+    },
+  },
+  {
+    id: 'mono',
+    label: 'Mono',
+    light: {
+      ...defaultLight,
+      background: 'oklch(0.985 0 0)',
+      surface: 'oklch(1 0 0)',
+      text: 'oklch(0.23 0 0)',
+      mutedText: 'oklch(0.55 0 0)',
+      primary: 'oklch(0.25 0 0)',
+      accent: 'oklch(0.43 0 0)',
+      border: 'oklch(0.86 0 0)',
+      ring: 'oklch(0.68 0 0)',
+    },
+    dark: {
+      ...defaultDark,
+      background: 'oklch(0.14 0 0)',
+      surface: 'oklch(0.23 0 0)',
+      text: 'oklch(0.98 0 0)',
+      mutedText: 'oklch(0.72 0 0)',
+      primary: 'oklch(0.92 0 0)',
+      accent: 'oklch(0.86 0 0)',
+      border: 'oklch(0.36 0 0)',
+      ring: 'oklch(0.55 0 0)',
+    },
+  },
+];
+
+export const fallbackCustomTheme = {
+  light: defaultLight,
+  dark: defaultDark,
+};

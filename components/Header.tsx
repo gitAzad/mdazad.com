@@ -1,13 +1,15 @@
 'use client';
 import { AnimatePresence, motion } from 'framer-motion';
-import { Menu, Sparkles, X } from 'lucide-react';
-import { useEffect, useState } from 'react';
-import ThemeToggle from './ThemeToggle';
+import { ArrowUpRight, Menu, Palette, X } from 'lucide-react';
+import { useEffect, useRef, useState } from 'react';
+import ThemeStudioPanel from './ThemeStudioPanel';
 
 export default function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [themeStudioOpen, setThemeStudioOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('hero');
+  const themeStudioRef = useRef<HTMLDivElement>(null);
 
   // Handle Scroll Effects
   useEffect(() => {
@@ -38,6 +40,29 @@ export default function Header() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  useEffect(() => {
+    const handlePointerDown = (event: MouseEvent) => {
+      if (!themeStudioRef.current) return;
+      if (!themeStudioRef.current.contains(event.target as Node)) {
+        setThemeStudioOpen(false);
+      }
+    };
+
+    const handleEscape = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        setThemeStudioOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handlePointerDown);
+    document.addEventListener('keydown', handleEscape);
+
+    return () => {
+      document.removeEventListener('mousedown', handlePointerDown);
+      document.removeEventListener('keydown', handleEscape);
+    };
+  }, []);
+
   const navItems = [
     { href: '#about', label: 'About' },
     { href: '#projects', label: 'Projects' },
@@ -52,19 +77,35 @@ export default function Header() {
         initial={{ y: -100 }}
         animate={{ y: 0 }}
         transition={{ duration: 0.6, type: 'spring', stiffness: 100 }}
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 flex justify-center ${
+        className={`fixed top-0 left-0 right-0 z-50 flex justify-center transition-[padding] duration-300 ${
           scrolled ? 'pt-4' : 'pt-6'
         }`}
       >
         <div
           className={`
-            relative flex items-center justify-between px-6 transition-all duration-300
+            relative flex items-center justify-between rounded-full border px-4 sm:px-6 transition-[width,padding,background-color,border-color,box-shadow] duration-300 ease-out
             ${
               scrolled
-                ? 'w-[95%] md:w-[85%] max-w-5xl bg-white/70 dark:bg-slate-900/70 backdrop-blur-xl border border-slate-200 dark:border-slate-700/50 rounded-full shadow-lg py-3'
-                : 'w-full max-w-7xl bg-transparent border-transparent py-2'
+                ? 'w-[95%] md:w-[85%] max-w-5xl py-2.5 backdrop-blur-md'
+                : 'w-full max-w-7xl py-2'
             }
           `}
+          style={
+            scrolled
+              ? {
+                  background:
+                    'color-mix(in oklch, var(--theme-background) 78%, transparent)',
+                  borderColor:
+                    'color-mix(in oklch, var(--theme-border) 72%, transparent)',
+                  boxShadow:
+                    '0 10px 24px color-mix(in oklch, var(--theme-text) 10%, transparent)',
+                }
+              : {
+                  background: 'transparent',
+                  borderColor: 'transparent',
+                  boxShadow: 'none',
+                }
+          }
         >
           {/* Logo */}
           <motion.a
@@ -72,22 +113,35 @@ export default function Header() {
             whileHover={{ scale: 1.05 }}
             className="flex items-center gap-2 font-bold text-2xl tracking-tighter"
           >
-            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-blue-600 to-purple-600 flex items-center justify-center text-white text-sm">
+            <div
+              className="w-8 h-8 rounded-lg flex items-center justify-center text-sm"
+              style={{
+                background: 'var(--theme-text)',
+                color: 'var(--theme-surface)',
+                boxShadow:
+                  'inset 0 0 0 1px color-mix(in oklch, var(--theme-border) 68%, transparent)',
+              }}
+            >
               MA
             </div>
             <span
-              className={`hidden sm:block ${
-                scrolled
-                  ? 'text-slate-800 dark:text-white'
-                  : 'text-slate-900 dark:text-white'
-              }`}
+              className="hidden sm:block"
+              style={{ color: 'var(--theme-text)' }}
             >
               Md Azad
             </span>
           </motion.a>
 
           {/* Desktop Nav */}
-          <nav className="hidden md:flex items-center gap-1 bg-slate-100/50 dark:bg-slate-800/50 p-1 rounded-full border border-slate-200/50 dark:border-slate-700/50 backdrop-blur-sm">
+          <nav
+            className="hidden md:flex items-center gap-1 p-1 rounded-full border backdrop-blur-sm"
+            style={{
+              background:
+                'color-mix(in oklch, var(--theme-surface) 78%, transparent)',
+              borderColor:
+                'color-mix(in oklch, var(--theme-border) 65%, transparent)',
+            }}
+          >
             {navItems.map((item) => (
               <a
                 key={item.href}
@@ -95,17 +149,24 @@ export default function Header() {
                 onClick={() => setActiveSection(item.href.slice(1))}
                 className={`
                   relative px-4 py-1.5 text-sm font-medium rounded-full transition-colors z-10
-                  ${
-                    activeSection === item.href.slice(1)
-                      ? 'text-white'
-                      : 'text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white'
-                  }
                 `}
+                style={{
+                  color:
+                    activeSection === item.href.slice(1)
+                      ? 'var(--theme-text)'
+                      : 'var(--theme-muted-text)',
+                }}
               >
                 {activeSection === item.href.slice(1) && (
                   <motion.div
                     layoutId="activeTab"
-                    className="absolute inset-0 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full -z-10"
+                    className="absolute inset-0 rounded-full -z-10"
+                    style={{
+                      background:
+                        'color-mix(in oklch, var(--theme-primary) 18%, var(--theme-surface))',
+                      boxShadow:
+                        'inset 0 0 0 1px color-mix(in oklch, var(--theme-primary) 45%, transparent)',
+                    }}
                     transition={{ type: 'spring', bounce: 0.2, duration: 0.6 }}
                   />
                 )}
@@ -115,24 +176,76 @@ export default function Header() {
           </nav>
 
           {/* Right Actions */}
-          <div className="flex items-center gap-3">
-            <ThemeToggle />
+          <div className="flex items-center gap-2.5">
+            <div className="relative hidden md:block" ref={themeStudioRef}>
+              <motion.button
+                whileHover={{ scale: 1.04 }}
+                whileTap={{ scale: 0.94 }}
+                onClick={() => setThemeStudioOpen((prev) => !prev)}
+                className="relative h-9 w-9 rounded-full border flex items-center justify-center"
+                style={{
+                  background:
+                    'color-mix(in oklch, var(--theme-surface) 75%, transparent)',
+                  color: 'var(--theme-muted-text)',
+                  borderColor: themeStudioOpen
+                    ? 'color-mix(in oklch, var(--theme-primary) 55%, transparent)'
+                    : 'color-mix(in oklch, var(--theme-border) 70%, transparent)',
+                }}
+                aria-label="Open theme studio"
+                aria-expanded={themeStudioOpen}
+              >
+                <Palette className="h-4 w-4" />
+              </motion.button>
+
+              <AnimatePresence>
+                {themeStudioOpen && (
+                  <motion.div
+                    initial={{ opacity: 0, y: -8, scale: 0.98 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    exit={{ opacity: 0, y: -8, scale: 0.98 }}
+                    transition={{ duration: 0.2 }}
+                    className="absolute right-0 top-12 z-50"
+                  >
+                    <ThemeStudioPanel />
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
 
             {/* Hire Me CTA */}
             <motion.a
               href="#contact"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="hidden sm:flex items-center gap-2 px-5 py-2.5 bg-slate-900 dark:bg-white text-white dark:text-slate-900 rounded-full font-semibold text-sm shadow-lg shadow-blue-500/20 hover:shadow-blue-500/40 transition-all"
+              whileHover={{ scale: 1.03 }}
+              whileTap={{ scale: 0.97 }}
+              className="inline-flex items-center justify-center gap-2 rounded-full px-4 py-2.5 text-sm font-semibold transition-all sm:px-5"
+              style={{
+                background: 'var(--theme-text)',
+                color: 'var(--theme-surface)',
+                boxShadow:
+                  '0 8px 20px color-mix(in oklch, var(--theme-text) 28%, transparent), inset 0 0 0 1px color-mix(in oklch, var(--theme-border) 45%, transparent)',
+              }}
             >
-              <Sparkles className="w-4 h-4" />
+              <ArrowUpRight className="h-3.5 w-3.5" />
               <span>Hire Me</span>
             </motion.a>
 
             {/* Mobile Menu Toggle */}
             <button
-              className="md:hidden p-2 text-slate-800 dark:text-white"
+              className="inline-flex h-10 w-10 items-center justify-center rounded-full border md:hidden"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              aria-label={
+                mobileMenuOpen
+                  ? 'Close navigation menu'
+                  : 'Open navigation menu'
+              }
+              aria-expanded={mobileMenuOpen}
+              style={{
+                background:
+                  'color-mix(in oklch, var(--theme-surface) 78%, transparent)',
+                color: 'var(--theme-text)',
+                borderColor:
+                  'color-mix(in oklch, var(--theme-border) 72%, transparent)',
+              }}
             >
               {mobileMenuOpen ? (
                 <X className="w-6 h-6" />
@@ -151,7 +264,11 @@ export default function Header() {
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
-            className="fixed inset-0 z-40 bg-white/95 dark:bg-slate-950/95 backdrop-blur-xl md:hidden pt-28 px-6"
+            className="fixed inset-0 z-40 backdrop-blur-xl md:hidden pt-28 px-6"
+            style={{
+              background:
+                'color-mix(in oklch, var(--theme-background) 95%, transparent)',
+            }}
           >
             <nav className="flex flex-col gap-4">
               {navItems.map((item, idx) => (
@@ -162,10 +279,24 @@ export default function Header() {
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: idx * 0.1 }}
                   onClick={() => setMobileMenuOpen(false)}
-                  className="flex items-center justify-between p-4 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-100 dark:border-slate-800 text-lg font-semibold text-slate-800 dark:text-slate-200"
+                  className="flex items-center justify-between p-4 rounded-xl border text-lg font-semibold"
+                  style={{
+                    background:
+                      'color-mix(in oklch, var(--theme-surface) 88%, transparent)',
+                    borderColor:
+                      'color-mix(in oklch, var(--theme-border) 68%, transparent)',
+                    color: 'var(--theme-text)',
+                  }}
                 >
                   {item.label}
-                  <span className="p-1 bg-white dark:bg-slate-800 rounded-full">
+                  <span
+                    className="p-1 rounded-full"
+                    style={{
+                      background:
+                        'color-mix(in oklch, var(--theme-surface) 72%, transparent)',
+                      color: 'var(--theme-muted-text)',
+                    }}
+                  >
                     <svg
                       className="w-4 h-4"
                       fill="none"
@@ -188,9 +319,16 @@ export default function Header() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.5 }}
                 onClick={() => setMobileMenuOpen(false)}
-                className="mt-4 w-full py-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-xl font-bold text-center shadow-xl"
+                className="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-xl py-4 text-center font-bold"
+                style={{
+                  background: 'var(--theme-text)',
+                  color: 'var(--theme-surface)',
+                  boxShadow:
+                    '0 10px 24px color-mix(in oklch, var(--theme-text) 30%, transparent), inset 0 0 0 1px color-mix(in oklch, var(--theme-border) 40%, transparent)',
+                }}
               >
-                Hire Me Now
+                <ArrowUpRight className="h-4 w-4" />
+                <span>Hire Me Now</span>
               </motion.a>
             </nav>
           </motion.div>

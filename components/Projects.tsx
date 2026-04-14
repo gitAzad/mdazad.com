@@ -1,7 +1,6 @@
 'use client';
 import { motion } from 'framer-motion';
-import { ArrowUpRight, Layers } from 'lucide-react';
-import { useState } from 'react';
+import { ArrowUpRight } from 'lucide-react';
 
 const projects = [
   {
@@ -9,167 +8,206 @@ const projects = [
     category: 'Fintech Core',
     description:
       'High-volume asset management system for a leading NBFC. Optimized transaction flows boosting asset efficiency by 25%.',
+    outcome: 'Boosted asset workflow efficiency by 25% in production.',
     tech: ['Spring Boot', 'Next.js', 'MongoDB', 'AWS'],
     link: '#',
-    gradient: 'from-blue-500 to-indigo-600',
-    visualStyle: 'abstract-mesh',
   },
   {
     title: 'Enterprise Fleet Manager',
     category: 'Logistics Tech',
     description:
       'Real-time tracking & analytics platform handling thousands of concurrent data streams for enterprise logistics.',
+    outcome: 'Improved response time by 25% under peak fleet traffic.',
     tech: ['Node.js', 'Google Maps', 'Redis', 'Socket.io'],
     link: '#',
-    gradient: 'from-orange-500 to-red-600',
-    visualStyle: 'geo-pattern',
   },
   {
     title: 'B2B Commerce Portal',
     category: 'E-Commerce',
     description:
       'Unified distributor platform connecting dealers with inventory management, order processing, and analytics.',
+    outcome: 'Reduced critical production bugs by 98% after hardening.',
     tech: ['Next.js', 'PostgreSQL', 'Docker', 'Redis'],
     link: '#',
-    gradient: 'from-emerald-500 to-teal-600',
-    visualStyle: 'grid-lock',
   },
   {
     title: 'Institutional ERP',
     category: 'EdTech',
     description:
       'Comprehensive management system digitizing admin workflows, reducing manual data entry errors by 90%.',
+    outcome: 'Significantly reduced errors through workflow automation.',
     tech: ['React', 'Node.js', 'MongoDB', 'AWS'],
     link: '#',
-    gradient: 'from-purple-500 to-pink-600',
-    visualStyle: 'flow-chart',
   },
   {
     title: 'Internal Fintech Engine',
     category: 'Financial Services',
     description:
       'Optimized backend calculation engine increasing response speeds by 20% for complex financial instruments.',
+    outcome: 'Reduced response time for high-complexity computations.',
     tech: ['Java', 'Kafka', 'Microservices', 'Docker'],
     link: '#',
-    gradient: 'from-cyan-500 to-blue-600',
-    visualStyle: 'data-stream',
   },
   {
     title: 'Cloud Scaling Solution',
     category: 'DevOps',
     description:
       'Enterprise-grade cloud architecture implementation achieving 99.9% uptime and 98% bug reduction.',
+    outcome: 'Improved release stability and service availability.',
     tech: ['AWS', 'CI/CD', 'Terraform', 'Kubernetes'],
     link: '#',
-    gradient: 'from-indigo-500 to-violet-600',
-    visualStyle: 'cloud-mesh',
   },
 ];
 
 export default function Projects() {
-  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
-
   return (
     <section
       id="projects"
-      className="relative py-24 px-6 bg-slate-50/50 dark:bg-[#0B1120] transition-colors duration-500 overflow-hidden"
+      className="relative overflow-hidden bg-background px-6 py-24 text-foreground"
     >
-      {/* Background Pattern */}
-      <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] pointer-events-none" />
+      <div className="pointer-events-none absolute inset-0">
+        <div
+          className="absolute inset-0"
+          style={{
+            opacity: 0.16,
+            backgroundImage:
+              'linear-gradient(to right, color-mix(in oklch, var(--theme-border) 30%, transparent) 1px, transparent 1px), linear-gradient(to bottom, color-mix(in oklch, var(--theme-border) 30%, transparent) 1px, transparent 1px)',
+            backgroundSize: '44px 44px',
+          }}
+        />
+      </div>
 
-      <div className="container mx-auto max-w-6xl relative z-10">
-        {/* Section Header */}
+      <div className="container relative z-10 mx-auto max-w-6xl">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
-          className="text-center mb-16"
+          className="mb-14 text-center"
         >
-          <h2 className="text-3xl md:text-5xl font-bold mb-4 text-slate-900 dark:text-white">
+          <span
+            className="inline-flex rounded-full border px-3 py-1 text-xs font-semibold uppercase tracking-[0.16em]"
+            style={{
+              borderColor:
+                'color-mix(in oklch, var(--theme-primary) 36%, transparent)',
+              color: 'var(--theme-primary)',
+              background:
+                'color-mix(in oklch, var(--theme-primary) 8%, transparent)',
+            }}
+          >
+            Featured Work
+          </span>
+          <h2 className="mt-4 text-3xl font-bold tracking-tight md:text-5xl">
             Featured{' '}
-            <span className="text-blue-600 dark:text-blue-400">Projects</span>
+            <span style={{ color: 'var(--theme-primary)' }}>Projects</span>
           </h2>
-          <div className="h-1.5 w-24 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full mx-auto" />
-          <p className="mt-4 text-slate-600 dark:text-slate-400 max-w-2xl mx-auto">
-            High-impact enterprise solutions engineered for scalability and
-            performance.
+          <p
+            className="mx-auto mt-4 max-w-2xl text-base leading-relaxed md:text-lg"
+            style={{ color: 'var(--theme-muted-text)' }}
+          >
+            High-impact enterprise products designed for reliability, scale, and
+            measurable business outcomes.
           </p>
         </motion.div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid gap-6 md:auto-rows-fr md:grid-cols-2 lg:grid-cols-3">
           {projects.map((proj, idx) => (
             <motion.div
               key={idx}
-              initial={{ opacity: 0, y: 30 }}
+              initial={{ opacity: 0, y: 22 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: idx * 0.1, duration: 0.5 }}
-              onHoverStart={() => setHoveredIndex(idx)}
-              onHoverEnd={() => setHoveredIndex(null)}
-              className="group relative h-full"
+              className="group h-full"
             >
-              {/* Card Container */}
-              <div className="relative h-full bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col">
-                {/* 1. Abstract UI Header (The "Visual" Replacement) */}
-                <div className="relative h-48 overflow-hidden bg-slate-100 dark:bg-slate-800/50">
-                  {/* Dynamic Gradient Mesh */}
-                  <div
-                    className={`absolute inset-0 bg-gradient-to-br ${proj.gradient} opacity-10 group-hover:opacity-20 transition-opacity duration-500`}
-                  />
+              <article
+                className="flex h-full flex-col rounded-2xl border p-6 transition-transform duration-300 group-hover:-translate-y-1"
+                style={{
+                  borderColor:
+                    'color-mix(in oklch, var(--theme-border) 66%, transparent)',
+                  background:
+                    'color-mix(in oklch, var(--theme-surface) 88%, transparent)',
+                  boxShadow:
+                    '0 8px 24px color-mix(in oklch, var(--theme-text) 7%, transparent)',
+                }}
+              >
+                <div className="mb-4 flex items-start justify-between gap-3">
+                  <span
+                    className="inline-flex rounded-full border px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.14em] font-mono"
+                    style={{
+                      borderColor:
+                        'color-mix(in oklch, var(--theme-primary) 34%, transparent)',
+                      color: 'var(--theme-primary)',
+                      background:
+                        'color-mix(in oklch, var(--theme-primary) 8%, transparent)',
+                    }}
+                  >
+                    {proj.category}
+                  </span>
 
-                  {/* Decorative Elements mimicking UI */}
-                  <div className="absolute inset-0 p-6 flex flex-col justify-center items-center">
-                    <div
-                      className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${proj.gradient} shadow-lg flex items-center justify-center text-white mb-4 transform group-hover:scale-110 group-hover:rotate-3 transition-all duration-500`}
-                    >
-                      <Layers className="w-8 h-8 opacity-90" />
-                    </div>
-                    {/* Abstract UI Lines */}
-                    <div className="w-3/4 h-2 bg-slate-200 dark:bg-slate-700/50 rounded-full mb-2 overflow-hidden">
-                      <div
-                        className={`h-full w-2/3 bg-gradient-to-r ${proj.gradient} opacity-30`}
-                      />
-                    </div>
-                    <div className="w-1/2 h-2 bg-slate-200 dark:bg-slate-700/50 rounded-full" />
-                  </div>
-
-                  {/* Overlay Link Icon */}
-                  <div className="absolute top-4 right-4 p-2 bg-white/90 dark:bg-slate-900/90 rounded-full opacity-0 group-hover:opacity-100 transform translate-y-2 group-hover:translate-y-0 transition-all duration-300 shadow-sm">
-                    <ArrowUpRight className="w-4 h-4 text-slate-900 dark:text-white" />
-                  </div>
+                  <a
+                    href={proj.link}
+                    className="inline-flex h-8 w-8 items-center justify-center rounded-full border"
+                    style={{
+                      borderColor:
+                        'color-mix(in oklch, var(--theme-border) 62%, transparent)',
+                      color: 'var(--theme-muted-text)',
+                      background:
+                        'color-mix(in oklch, var(--theme-surface) 92%, transparent)',
+                    }}
+                    aria-label={`Open ${proj.title}`}
+                  >
+                    <ArrowUpRight className="h-4 w-4" />
+                  </a>
                 </div>
 
-                {/* 2. Content Body */}
-                <div className="p-6 flex flex-col flex-grow">
-                  <div className="mb-4">
-                    <span
-                      className={`text-xs font-bold tracking-wider uppercase bg-clip-text text-transparent bg-gradient-to-r ${proj.gradient}`}
-                    >
-                      {proj.category}
-                    </span>
-                    <h3 className="text-xl font-bold text-slate-900 dark:text-white mt-1 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
-                      {proj.title}
-                    </h3>
-                  </div>
+                <h3 className="text-xl font-semibold leading-tight md:text-2xl">
+                  {proj.title}
+                </h3>
 
-                  <p className="text-slate-600 dark:text-slate-400 text-sm leading-relaxed mb-6 flex-grow">
-                    {proj.description}
+                <p
+                  className="mt-3 text-sm leading-relaxed md:text-[15px]"
+                  style={{ color: 'var(--theme-muted-text)' }}
+                >
+                  {proj.description}
+                </p>
+
+                <div
+                  className="mt-5 min-h-22 rounded-xl border px-4 py-3"
+                  style={{
+                    borderColor:
+                      'color-mix(in oklch, var(--theme-border) 58%, transparent)',
+                    background:
+                      'color-mix(in oklch, var(--theme-surface) 94%, transparent)',
+                  }}
+                >
+                  <p
+                    className="text-[10px] font-semibold uppercase tracking-[0.14em]"
+                    style={{ color: 'var(--theme-muted-text)' }}
+                  >
+                    Outcome
                   </p>
-
-                  {/* Tech Stack Pills */}
-                  <div className="flex flex-wrap gap-2 pt-4 border-t border-slate-100 dark:border-slate-800/50 mt-auto">
-                    {proj.tech.map((t) => (
-                      <span
-                        key={t}
-                        className="px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wide rounded-md bg-slate-50 dark:bg-slate-800 text-slate-500 dark:text-slate-400 border border-slate-200 dark:border-slate-700 group-hover:border-blue-200 dark:group-hover:border-blue-900/30 transition-colors"
-                      >
-                        {t}
-                      </span>
-                    ))}
-                  </div>
+                  <p className="mt-1 text-sm font-medium">{proj.outcome}</p>
                 </div>
-              </div>
+
+                <div className="mt-auto flex min-h-17 flex-wrap content-start gap-2 pt-2">
+                  {proj.tech.map((t) => (
+                    <span
+                      key={t}
+                      className="rounded-md border px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.12em] font-mono"
+                      style={{
+                        borderColor:
+                          'color-mix(in oklch, var(--theme-border) 62%, transparent)',
+                        color: 'var(--theme-muted-text)',
+                        background:
+                          'color-mix(in oklch, var(--theme-surface) 94%, transparent)',
+                      }}
+                    >
+                      {t}
+                    </span>
+                  ))}
+                </div>
+              </article>
             </motion.div>
           ))}
         </div>
