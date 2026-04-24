@@ -113,7 +113,7 @@ export default function About() {
                 className="italic"
                 style={{ color: 'var(--theme-muted-text)' }}
               >
-                {`"I don&apos;t just write code. I build systems that reduce
+                {`"I don't just write code. I build systems that reduce
                 latency, enhance security, and drive measurable business
                 growth."`}
               </p>
