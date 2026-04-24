@@ -177,11 +177,14 @@ export default function Header() {
 
           {/* Right Actions */}
           <div className="flex items-center gap-2.5">
-            <div className="relative hidden md:block" ref={themeStudioRef}>
+            <div className="relative" ref={themeStudioRef}>
               <motion.button
                 whileHover={{ scale: 1.04 }}
                 whileTap={{ scale: 0.94 }}
-                onClick={() => setThemeStudioOpen((prev) => !prev)}
+                onClick={() => {
+                  setMobileMenuOpen(false);
+                  setThemeStudioOpen((prev) => !prev);
+                }}
                 className="relative h-9 w-9 rounded-full border flex items-center justify-center"
                 style={{
                   background:
@@ -199,15 +202,16 @@ export default function Header() {
 
               <AnimatePresence>
                 {themeStudioOpen && (
-                  <motion.div
-                    initial={{ opacity: 0, y: -8, scale: 0.98 }}
-                    animate={{ opacity: 1, y: 0, scale: 1 }}
-                    exit={{ opacity: 0, y: -8, scale: 0.98 }}
-                    transition={{ duration: 0.2 }}
-                    className="absolute right-0 top-12 z-50"
-                  >
-                    <ThemeStudioPanel />
-                  </motion.div>
+                  <div className="fixed left-1/2 top-20 z-50 -translate-x-1/2 md:absolute md:left-auto md:right-0 md:top-12 md:translate-x-0">
+                    <motion.div
+                      initial={{ opacity: 0, y: -8, scale: 0.98 }}
+                      animate={{ opacity: 1, y: 0, scale: 1 }}
+                      exit={{ opacity: 0, y: -8, scale: 0.98 }}
+                      transition={{ duration: 0.2 }}
+                    >
+                      <ThemeStudioPanel />
+                    </motion.div>
+                  </div>
                 )}
               </AnimatePresence>
             </div>
@@ -232,7 +236,10 @@ export default function Header() {
             {/* Mobile Menu Toggle */}
             <button
               className="inline-flex h-10 w-10 items-center justify-center rounded-full border md:hidden"
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              onClick={() => {
+                setThemeStudioOpen(false);
+                setMobileMenuOpen(!mobileMenuOpen);
+              }}
               aria-label={
                 mobileMenuOpen
                   ? 'Close navigation menu'
