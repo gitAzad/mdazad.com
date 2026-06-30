@@ -53,17 +53,17 @@ const socialLinks: SocialLink[] = [
   {
     label: 'GitHub',
     Icon: Github,
-    href: 'https://github.com/gitAzad',
+    href: 'https://github.com/md4zad',
   },
   {
     label: 'LinkedIn',
     Icon: Linkedin,
-    href: 'https://www.linkedin.com/in/mr-azad',
+    href: 'https://www.linkedin.com/in/md4zad',
   },
   {
     label: 'X',
     Icon: Twitter,
-    href: 'https://x.com/mdazadx',
+    href: 'https://x.com/md4zad',
   },
   {
     label: 'Website',
