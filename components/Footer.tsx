@@ -18,13 +18,13 @@ export default function Footer() {
   ];
 
   const socialLinks: SocialLink[] = [
-    { name: 'GitHub', url: 'https://github.com/md4zad', Icon: Github },
+    { name: 'GitHub', url: 'https://github.com/heymdazad', Icon: Github },
     {
       name: 'LinkedIn',
-      url: 'https://www.linkedin.com/in/md4zad',
+      url: 'https://www.linkedin.com/in/heymdazad',
       Icon: Linkedin,
     },
-    { name: 'Twitter', url: 'https://x.com/md4zad', Icon: Twitter },
+    { name: 'Twitter', url: 'https://x.com/heymdazad', Icon: Twitter },
     { name: 'Email', url: 'mailto:hello@mdazad.com', Icon: Mail },
   ];
 
